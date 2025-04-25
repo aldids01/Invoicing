@@ -93,6 +93,10 @@ class Business extends Model implements HasAvatar, HasCurrentTenantLabel
     {
         return $this->hasMany(Bill::class);
     }
+    public function debits(): HasMany
+    {
+        return $this->hasMany(Bill::class);
+    }
     public function orders(): HasMany
     {
         return $this->hasMany(Bill::class);

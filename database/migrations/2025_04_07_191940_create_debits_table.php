@@ -30,6 +30,7 @@ return new class extends Migration
 
             $table->decimal('sub_total', 20, 2)->nullable();
             $table->decimal('total_discount', 20, 2)->nullable();
+            $table->decimal('total', 20, 2)->nullable();
             $table->decimal('amount_used', 20, 2)->nullable();
             $table->decimal('amount_unused', 20, 2)->nullable();
 

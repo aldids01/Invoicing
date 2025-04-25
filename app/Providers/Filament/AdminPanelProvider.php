@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->domain('http://leeva.test')
+            ->domain('https://leevainvoice.com')
             ->login()
             ->favicon(asset('images/leeva_logo.png'))
             ->spa()

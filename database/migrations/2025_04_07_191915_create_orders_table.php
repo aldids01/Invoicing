@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('number')->unique();
             $table->string('currency');
             $table->date('tran_date');
-            $table->string('sub_title');
-            $table->string('shipping_method');
+            $table->string('sub_title')->nullable();
+            $table->string('shipping_method')->nullable();
             $table->text('terms')->nullable();
             $table->text('notes')->nullable();
 

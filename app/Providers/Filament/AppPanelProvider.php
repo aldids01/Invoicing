@@ -38,7 +38,7 @@ class AppPanelProvider extends PanelProvider
         return $panel
             ->id('app')
             ->path('app')
-            ->domain('http://leeva.test')
+            ->domain('https://leevainvoice.com')
             ->login()
             ->favicon(asset('images/leeva_logo.png'))
             ->spa()

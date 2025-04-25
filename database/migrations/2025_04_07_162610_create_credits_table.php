@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('currency');
             $table->date('tran_date');
             $table->string('sub_title')->nullable();
+            $table->string('shipping_method')->nullable();
             $table->text('terms')->nullable();
             $table->text('notes')->nullable();
 
@@ -32,7 +33,9 @@ return new class extends Migration
             $table->unsignedBigInteger('business_id')->nullable();
 
             $table->decimal('sub_total', 20, 2)->nullable();
+            $table->decimal('total_discount', 20, 2)->nullable();
             $table->decimal('total', 20, 2)->nullable();
+            $table->decimal('shipping_cost', 20, 2)->nullable();
             $table->decimal('amount_used', 20, 2)->nullable();
             $table->decimal('amount_unused', 20, 2)->nullable();
 
