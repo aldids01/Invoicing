@@ -38,7 +38,7 @@ class AppPanelProvider extends PanelProvider
         return $panel
             ->id('app')
             ->path('app')
-            ->domain('https://leevainvoice.com')
+//            ->domain('https://leevainvoice.com')
             ->login()
             ->favicon(asset('images/leeva_logo.png'))
             ->spa()
@@ -47,6 +47,9 @@ class AppPanelProvider extends PanelProvider
             ->maxContentWidth(MaxWidth::Full)
             ->registration()
             ->tenant(Business::class, slugAttribute: 'slug', ownershipRelationship: 'business')
+            ->tenantMiddleware([
+                \BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant::class,
+            ], isPersistent: true)
             ->tenantRegistration(RegisterTeam::class)
             ->tenantProfile(EditTeamProfile::class)
             ->requiresTenantSubscription()
@@ -104,32 +107,32 @@ class AppPanelProvider extends PanelProvider
                             ->disk('public')
                     )
                     ->enableTwoFactorAuthentication(),
-                FilamentSocialitePlugin::make()
-                    ->providers([
-                        Provider::make('google')
-                            ->label('Google')
-                            ->icon('fab-google')
-                            ->color(Color::hex('#2f2a6b'))
-                            ->outlined(true)
-                            ->stateless(false),
-                        Provider::make('microsoft')
-                            ->label('Microsoft')
-                            ->icon('fab-github')
-                            ->color(Color::hex('#2f2a6b'))
-                            ->outlined(true)
-                            ->stateless(false),
-                    ])->registration(true)
-                    ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
-                        $user = User::firstOrNew([
-                            'email' => $oauthUser->getEmail(),
-                        ]);
-                        $user->name = $oauthUser->getName();
-                        $user->email = $oauthUser->getEmail();
-                        $user->email_verified_at = now();
-                        $user->save();
-
-                        return $user;
-                    }),
+//                FilamentSocialitePlugin::make()
+//                    ->providers([
+//                        Provider::make('google')
+//                            ->label('Google')
+//                            ->icon('fab-google')
+//                            ->color(Color::hex('#2f2a6b'))
+//                            ->outlined(true)
+//                            ->stateless(false),
+//                        Provider::make('microsoft')
+//                            ->label('Microsoft')
+//                            ->icon('fab-github')
+//                            ->color(Color::hex('#2f2a6b'))
+//                            ->outlined(true)
+//                            ->stateless(false),
+//                    ])->registration(true)
+//                    ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
+//                        $user = User::firstOrNew([
+//                            'email' => $oauthUser->getEmail(),
+//                        ]);
+//                        $user->name = $oauthUser->getName();
+//                        $user->email = $oauthUser->getEmail();
+//                        $user->email_verified_at = now();
+//                        $user->save();
+//
+//                        return $user;
+//                    }),
                 FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 1,

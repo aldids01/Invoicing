@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravelcm\Subscriptions\Traits\HasPlanSubscriptions;
 use Spatie\Permission\Traits\HasRoles;
+use TomatoPHP\FilamentSubscriptions\Facades\FilamentSubscriptions;
 
 class User extends Authenticatable implements FilamentUser, HasTenants, HasAvatar, HasDefaultTenant
 {
@@ -95,5 +96,4 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasAvata
     {
         return $this->belongsTo(Business::class);
     }
-
 }

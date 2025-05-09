@@ -95,7 +95,7 @@ class BusinessPolicy
      */
     public function replicate(User $user, Business $business): bool
     {
-        return $user->can('replicate_business');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class BusinessPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_business');
+        return $user->can('{{ Reorder }}');
     }
 }

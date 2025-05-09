@@ -95,7 +95,7 @@ class ProformaPolicy
      */
     public function replicate(User $user, Proforma $proforma): bool
     {
-        return $user->can('replicate_sales::proforma');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class ProformaPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_sales::proforma');
+        return $user->can('{{ Reorder }}');
     }
 }

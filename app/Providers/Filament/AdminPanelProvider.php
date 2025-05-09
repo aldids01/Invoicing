@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->domain('https://leevainvoice.com')
+//            ->domain('https://leevainvoice.com')
             ->login()
             ->favicon(asset('images/leeva_logo.png'))
             ->spa()
@@ -75,7 +75,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-
                 FilamentSubscriptionsPlugin::make(),
                 BreezyCore::make()
                     ->myProfile(
@@ -95,32 +94,32 @@ class AdminPanelProvider extends PanelProvider
                             ->disk('public')
                     )
                     ->enableTwoFactorAuthentication(),
-                FilamentSocialitePlugin::make()
-                    ->providers([
-                        Provider::make('google')
-                            ->label('Google')
-                            ->icon('fab-google')
-                            ->color(Color::hex('#2f2a6b'))
-                            ->outlined(true)
-                            ->stateless(false),
-                        Provider::make('microsoft')
-                            ->label('Microsoft')
-                            ->icon('fab-github')
-                            ->color(Color::hex('#2f2a6b'))
-                            ->outlined(true)
-                            ->stateless(false),
-                    ])->registration(true)
-                    ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
-                        $user = User::firstOrNew([
-                            'email' => $oauthUser->getEmail(),
-                        ]);
-                        $user->name = $oauthUser->getName();
-                        $user->email = $oauthUser->getEmail();
-                        $user->email_verified_at = now();
-                        $user->save();
-
-                        return $user;
-                    }),
+//                FilamentSocialitePlugin::make()
+//                    ->providers([
+//                        Provider::make('google')
+//                            ->label('Google')
+//                            ->icon('fab-google')
+//                            ->color(Color::hex('#2f2a6b'))
+//                            ->outlined(true)
+//                            ->stateless(false),
+//                        Provider::make('microsoft')
+//                            ->label('Microsoft')
+//                            ->icon('fab-github')
+//                            ->color(Color::hex('#2f2a6b'))
+//                            ->outlined(true)
+//                            ->stateless(false),
+//                    ])->registration(true)
+//                    ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
+//                        $user = User::firstOrNew([
+//                            'email' => $oauthUser->getEmail(),
+//                        ]);
+//                        $user->name = $oauthUser->getName();
+//                        $user->email = $oauthUser->getEmail();
+//                        $user->email_verified_at = now();
+//                        $user->save();
+//
+//                        return $user;
+//                    }),
                 FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 1,

@@ -13,7 +13,7 @@ return [
         'cluster' => null,
     ],
 
-    'tenant_model' => null,
+    'tenant_model' => 'App\Models\Business',
 
     'auth_provider_model' => [
         'fqcn' => 'App\\Models\\User',
@@ -39,8 +39,8 @@ return [
             'update',
             'restore',
             'restore_any',
-            'replicate',
-            'reorder',
+//            'replicate',
+//            'reorder',
             'delete',
             'delete_any',
             'force_delete',

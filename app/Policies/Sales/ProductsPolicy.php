@@ -95,7 +95,7 @@ class ProductsPolicy
      */
     public function replicate(User $user, Products $products): bool
     {
-        return $user->can('replicate_products');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class ProductsPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_products');
+        return $user->can('{{ Reorder }}');
     }
 }

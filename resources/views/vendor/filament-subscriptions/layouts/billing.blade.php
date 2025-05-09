@@ -23,9 +23,7 @@
             </div>
         @endif
 
-        <div
-            class="fi-simple-main-ctn"
-        >
+        <div class="fi-simple-main-ctn">
             {{ $slot }}
         </div>
 

@@ -53,12 +53,9 @@ class CustomerResource extends Resource
                             ->maxLength(255)
                             ->default(null),
                         Forms\Components\TextInput::make('mobile')
-                            ->maxLength(255)
-                            ->default(null),
+                            ->tel(),
                         Forms\Components\TextInput::make('phone')
-                            ->tel()
-                            ->maxLength(255)
-                            ->default(null),
+                            ->tel(),
                     ])->columns(2),
 
                 ])->columnSpan(2),

@@ -30,8 +30,15 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\FileUpload::make('avatar_url')
+                    ->avatar()
+                    ->label('')
+                    ->columnSpanFull()
+                    ->alignCenter()
+                    ->default(null),
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
@@ -41,9 +48,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('avatar_url')
-                    ->image(),
+                    ->revealable(),
                 Forms\Components\Select::make('business_id')
                     ->relationship('business', 'name')
                     ->default(null),

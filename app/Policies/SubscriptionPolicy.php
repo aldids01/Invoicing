@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentSubscriptions\Models\Subscription;
+use Laravelcm\Subscriptions\Models\Subscription;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SubscriptionPolicy
@@ -95,7 +95,7 @@ class SubscriptionPolicy
      */
     public function replicate(User $user, Subscription $subscription): bool
     {
-        return $user->can('replicate_subscription');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class SubscriptionPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_subscription');
+        return $user->can('{{ Reorder }}');
     }
 }

@@ -95,7 +95,7 @@ class ReceiptPolicy
      */
     public function replicate(User $user, Receipt $receipt): bool
     {
-        return $user->can('replicate_sales::receipt');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class ReceiptPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_sales::receipt');
+        return $user->can('{{ Reorder }}');
     }
 }

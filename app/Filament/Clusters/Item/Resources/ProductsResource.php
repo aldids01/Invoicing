@@ -7,6 +7,7 @@ use App\Filament\Clusters\Item\Resources\Sales\ProductsResource\Pages;
 use App\Filament\Clusters\Item\Resources\Sales\ProductsResource\RelationManagers;
 use App\Models\Sales\Products;
 use Filament\Forms;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,6 +36,7 @@ class ProductsResource extends Resource
                                 Forms\Components\TextInput::make('name')
                                     ->required()
                                     ->maxLength(255)
+                                    ->columnSpanFull()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
                                         if ($operation !== 'create') {
@@ -43,13 +45,9 @@ class ProductsResource extends Resource
 
                                         $set('slug', Str::slug($state));
                                     }),
-
-                                Forms\Components\TextInput::make('slug')
-                                    ->disabled()
-                                    ->dehydrated()
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->unique(Products::class, 'slug', ignoreRecord: true),
+                                hidden::make('slug')
+                                    ->unique(Products::class, 'slug', ignoreRecord: true)
+                                    ->default(0),
 
                                 Forms\Components\MarkdownEditor::make('description')
                                     ->columnSpan('full'),
@@ -64,11 +62,6 @@ class ProductsResource extends Resource
                                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                     ->required(),
 
-                                Forms\Components\TextInput::make('old_price')
-                                    ->label('Compare at price')
-                                    ->numeric()
-                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                    ->required(),
 
                                 Forms\Components\TextInput::make('cost')
                                     ->label('Cost per item')
@@ -89,8 +82,7 @@ class ProductsResource extends Resource
                                 Forms\Components\TextInput::make('barcode')
                                     ->label('Barcode (ISBN, UPC, GTIN, etc.)')
                                     ->unique(Products::class, 'barcode', ignoreRecord: true)
-                                    ->maxLength(255)
-                                    ->required(),
+                                    ->maxLength(255),
 
                                 Forms\Components\TextInput::make('qty')
                                     ->label('Quantity')

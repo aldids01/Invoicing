@@ -95,7 +95,7 @@ class InvoicePolicy
      */
     public function replicate(User $user, Invoice $invoice): bool
     {
-        return $user->can('replicate_sales::invoice');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class InvoicePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_sales::invoice');
+        return $user->can('{{ Reorder }}');
     }
 }

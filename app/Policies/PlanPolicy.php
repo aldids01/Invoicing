@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentSubscriptions\Models\Plan;
+use Laravelcm\Subscriptions\Models\Plan;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PlanPolicy
@@ -95,7 +95,7 @@ class PlanPolicy
      */
     public function replicate(User $user, Plan $plan): bool
     {
-        return $user->can('replicate_plan');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class PlanPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_plan');
+        return $user->can('{{ Reorder }}');
     }
 }

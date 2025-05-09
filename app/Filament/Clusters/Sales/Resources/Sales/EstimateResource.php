@@ -26,6 +26,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Number;
+use Illuminate\Support\Str;
 use TomatoPHP\FilamentLocations\Models\Country;
 use TomatoPHP\FilamentLocations\Models\Currency;
 
@@ -329,12 +330,13 @@ class EstimateResource extends Resource
         return Forms\Components\Repeater::make('items')
             ->relationship('items')
             ->schema([
-                Forms\Components\Grid::make()
+                Forms\Components\Fieldset::make('Items')
+                    ->columns(2)
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('product_id')
-                            ->relationship('product', 'name')
+                            ->relationship('product', 'name', modifyQueryUsing: fn (Builder $query) => $query->where('business_id', Filament::getTenant()?->id))
                             ->reactive()
-                            ->columnSpan(1)
                             ->afterStateUpdated(function ($state, callable $set) {
                                 static::updateItemDetails($state, $set, 'product');
                             })
@@ -342,13 +344,62 @@ class EstimateResource extends Resource
                         Select::make('service_id')
                             ->relationship('service', 'name')
                             ->reactive()
-                            ->columnSpan(1)
                             ->afterStateUpdated(function ($state, callable $set) {
                                 static::updateItemDetails($state, $set, 'service');
                             })
-                            ->disabled(fn (callable $get) => filled($get('product_id'))),
-                    ])->columns(2),
-                Forms\Components\Grid::make()
+                            ->disabled(fn (callable $get) => filled($get('product_id')))
+                            ->createOptionForm([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required()
+                                            ->label('Service name')
+                                            ->maxLength(255)
+                                            ->columnSpanFull()
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                                if ($operation !== 'create') {
+                                                    return;
+                                                }
+
+                                                $set('sac', Str::slug($state));
+                                            }),
+                                        hidden::make('sac')
+                                            ->unique(Service::class, 'sac', ignoreRecord: true),
+
+
+                                        Forms\Components\MarkdownEditor::make('description')
+                                            ->columnSpan('full'),
+                                    ])
+                                    ->columns(2),
+                                Forms\Components\Section::make('Pricing')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('price')
+                                            ->numeric()
+                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                            ->required(),
+
+                                        Forms\Components\TextInput::make('qty')
+                                            ->label('Quantity')
+                                            ->numeric()
+                                            ->rules(['integer', 'min:0'])
+                                            ->required(),
+                                    ])
+                                    ->columns(2)
+                                    ->collapsed(),
+                                Forms\Components\Section::make('Images')
+                                    ->schema([
+                                        SpatieMediaLibraryFileUpload::make('media')
+                                            ->collection('service-images')
+                                            ->multiple()
+                                            ->maxFiles(5)
+                                            ->hiddenLabel(),
+                                    ])
+                                    ->collapsed(),
+                            ]),
+
+                    ])->columnSpan(12),
+                Forms\Components\Fieldset::make('Financial')
                     ->columns(6)
                     ->columnSpanFull()
                     ->schema([
@@ -390,7 +441,9 @@ class EstimateResource extends Resource
                             ->label('Total Price')
                             ->numeric()
                             ->readOnly(),
-                    ])->columnSpan(6),
+                    ])
+                    ->columnSpan(12)
+                    ->hidden(fn (callable $get) => ! (filled($get('product_id')) || filled($get('service_id')))),
 
             ])->defaultItems(1)->columns(5)
             ->hiddenLabel()

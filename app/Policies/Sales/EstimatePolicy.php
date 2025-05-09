@@ -95,7 +95,7 @@ class EstimatePolicy
      */
     public function replicate(User $user, Estimate $estimate): bool
     {
-        return $user->can('replicate_sales::estimate');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class EstimatePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_sales::estimate');
+        return $user->can('{{ Reorder }}');
     }
 }

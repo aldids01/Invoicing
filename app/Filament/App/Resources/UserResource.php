@@ -5,6 +5,7 @@ namespace App\Filament\App\Resources;
 use App\Filament\App\Resources\UserResource\Pages;
 use App\Filament\App\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -24,10 +26,18 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\FileUpload::make('avatar_url')
+                    ->avatar()
+                    ->label('')
+                    ->columnSpanFull()
+                    ->alignCenter()
+                    ->default(null),
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->unique(User::class, 'email', ignoreRecord: true)
                     ->email()
                     ->required()
                     ->maxLength(255),
@@ -35,13 +45,17 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->revealable(),
                 Forms\Components\Select::make('business_id')
-                    ->relationship('business', 'name')
-                    ->default(null),
-                Forms\Components\FileUpload::make('avatar_url')
-                    ->avatar()
-                    ->default(null),
+                     ->relationship('business', 'name')
+                    ->options(function () {
+                        $user = Auth::user();
+                        $accessibleBusinesses = $user->businesses;
+                        return $accessibleBusinesses->pluck('name', 'id')->toArray();
+                    })
+                    ->default(fn () => Filament::getTenant()?->id)
+                    ->required(),
+
             ]);
     }
 

@@ -3,6 +3,7 @@ namespace App\Filament\Pages\Tenancy;
 
 use App\Models\Business;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -39,18 +40,23 @@ class EditTeamProfile extends EditTenantProfile
                                     ->imageEditor()
                                     ->circleCropper()
                                     ->directory('businesses'),
-                                TextInput::make('name')->label('Business Name')->required()->live(onBlur: true)
+                                TextInput::make('name')
+                                    ->label('Business Name')
+                                    ->columnSpanFull()
+                                    ->required()->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
                                         $set('slug', Str::slug($state));
                                     }),
-                                TextInput::make('slug')
-                                    ->disabled()
-                                    ->dehydrated()
-                                    ->required()
-                                    ->maxLength(255)
+                                hidden::make('slug')
                                     ->unique(Business::class, 'slug', ignoreRecord: true),
-                                TextInput::make('phone')->label('Business Phone')->unique(ignoreRecord: true),
-                                TextInput::make('email')->label('Business Email')->unique(ignoreRecord: true)->default(auth()->user()->email),
+                                TextInput::make('phone')
+                                    ->tel()
+                                    ->label('Business Phone')
+                                    ->unique(ignoreRecord: true),
+                                TextInput::make('email')
+                                    ->email()
+                                    ->label('Business Email')
+                                    ->unique(ignoreRecord: true),
 
                                 RichEditor::make('description')
                                     ->columnSpanFull()
@@ -75,7 +81,7 @@ class EditTeamProfile extends EditTenantProfile
                         size="sm"
                         wire:submit="register"
                     >
-                        Register
+                        Save
                     </x-filament::button>
                     BLADE))),
 

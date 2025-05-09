@@ -122,7 +122,7 @@ return [
         ],
     ],
     "view" => [
-        'billing_management' => 'Billing Management',
+        'billing_management' => 'Billing Management Price List',
         'signed_in_as' => 'Signed in as',
         'managing_billing_for' => 'Managing billing for',
         'our_billing_management' => 'Our billing management portal allows you to conveniently manage your subscription plan, payment method, and download your recent invoices.',

@@ -8,6 +8,7 @@ use App\Filament\Clusters\Item\Resources\Sales\ServiceResource\RelationManagers;
 use App\Models\Sales\Products;
 use App\Models\Sales\Service;
 use Filament\Forms;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,6 +36,7 @@ class ServiceResource extends Resource
                                     ->required()
                                     ->label('Service name')
                                     ->maxLength(255)
+                                    ->columnSpanFull()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
                                         if ($operation !== 'create') {
@@ -43,14 +45,9 @@ class ServiceResource extends Resource
 
                                         $set('sac', Str::slug($state));
                                     }),
-
-                                Forms\Components\TextInput::make('sac')
-                                    ->disabled()
-                                    ->label('SAC')
-                                    ->dehydrated()
-                                    ->required()
-                                    ->maxLength(255)
+                                hidden::make('sac')
                                     ->unique(Service::class, 'sac', ignoreRecord: true),
+
 
                                 Forms\Components\MarkdownEditor::make('description')
                                     ->columnSpan('full'),

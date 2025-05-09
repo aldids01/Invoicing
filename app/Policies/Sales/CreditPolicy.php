@@ -95,7 +95,7 @@ class CreditPolicy
      */
     public function replicate(User $user, Credit $credit): bool
     {
-        return $user->can('replicate_sales::credit');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class CreditPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_sales::credit');
+        return $user->can('{{ Reorder }}');
     }
 }

@@ -95,7 +95,7 @@ class VendorPolicy
      */
     public function replicate(User $user, Vendor $vendor): bool
     {
-        return $user->can('replicate_purchase::vendor');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class VendorPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_purchase::vendor');
+        return $user->can('{{ Reorder }}');
     }
 }
